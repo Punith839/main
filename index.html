@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Simple HTML5 Page</title>
+  <meta name="description" content="A very simple static HTML5 page with headings, image, link, form and semantic layout." />
+  <style>
+    /* Minimal styling (optional) to keep things readable */
+    :root { color-scheme: light dark; }
+    body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; line-height:1.6; background:#f9fafb; color:#111827;}
+    header, nav, section, footer {padding: 16px;}
+    header{background:#111827; color:#fff;}
+    nav a{margin-right:12px; text-decoration:none; color:inherit;}
+    nav a:hover{text-decoration:underline;}
+    main{max-width:920px; margin: 0 auto; padding: 24px 16px;}
+    img{max-width:100%; height:auto; border-radius:8px;}
+    form{display:grid; gap:12px; max-width:420px;}
+    label{display:block; font-weight:600;}
+    input[type="text"], input[type="email"]{width:100%; padding:10px; border:1px solid #d1d5db; border-radius:6px;}
+    input[type="submit"]{padding:10px 14px; border:0; border-radius:6px; cursor:pointer; background:#2563eb; color:#fff;}
+    footer{background:#111827; color:#fff; text-align:center;}
+    footer a{color:inherit; text-decoration:underline;}
+  </style>
+</head>
+<body>
+  <!-- Site Header -->
+  <header>
+    <h1 id="home">My Simple Site</h1>
+    <nav aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">About This Page</h2>
+      <p>
+        This tiny HTML5 page demonstrates headings, a paragraph, an image, a link, a mail link, a form, and semantic elements (<code>header</code>, <code>nav</code>, <code>section</code>, <code>footer</code>).
+        Use it as a starter template and customize the text and links.
+      </p>
+
+      <h3>Sample Image</h3>
+      <p>The image below is loaded from a free placeholder service.</p>
+      <img src="images/zagred.jfif" alt="My JFIF images />
+
+      <!-- If you saved your own image into an 'images' folder, use this instead:
+      <img src="images/sample.jpg" alt="Describe your image briefly">
+      -->
+
+      <p>
+        Learn more about HTML at
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener">MDN Web Docs</a>.
+      </p>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <p>
+        You can email me at
+        <a href="mailto:hello@example.com">hello@example.com</a>,
+        or fill out the simple form below:
+      </p>
+
+      <!-- Simple Contact Form -->
+      <form action="#" method="get">
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your full name" required>
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required>
+        </div>
+
+        <input type="submit" value="Submit">
+      </form>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer>
+    <p>&copy; 2025 My Simple Site • <a href="https://www.example.com" target="_blank" rel="noopener">Visit Example.com</a></p>
+  </footer>
+</body>
+</html>

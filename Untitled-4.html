@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      padding: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      max-width: 450px;
+      margin: auto;
+      background: #530ddee4;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      color: white;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 4px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #110ddee4;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 48%;
+      padding: 10px;
+      background: #110ddee4;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background: #4444ee;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #message {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* Password strength bar */
+    #strength {
+      height: 6px;
+      margin-top: 5px;
+      border-radius: 4px;
+      background: #ccc;
+    }
+
+    /* Success box */
+    #successBox {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      background: rgb(194, 11, 179);
+      color: white;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Register</h2>
+
+  <form id="myForm">
+    <label>Username:</label>
+    <input type="text" id="username" placeholder="Enter at least 3 characters"/>
+
+    <label>Email:</label>
+    <input type="text" id="email" placeholder="example@email.com"/>
+
+    <label>Password:</label>
+    <input type="password" id="password" />
+    <div id="strength"></div>
+
+    <label>Confirm Password:</label>
+    <input type="password" id="confirmPassword" />
+
+    <!-- Show/Hide password -->
+    <label>
+      <input type="checkbox" id="togglePassword"> Show Password
+    </label>
+
+    <!-- NEW FIELDS -->
+    <label>Date of Birth:</label>
+    <input type="date" id="dob"/>
+
+    <label>Address:</label>
+    <textarea id="address" rows="3" placeholder="Enter your address"></textarea>
+
+    <label>College Name:</label>
+    <input type="text" id="college" placeholder="Enter your college name"/>
+
+    <label>Upload Profile Picture:</label>
+    <input type="file" id="fileUpload" accept="image/*"/>
+
+    <div class="btn-group">
+      <button type="submit">Submit</button>
+      <button type="button" id="resetBtn">Reset</button>
+    </div>
+
+    <p id="message"></p>
+    <div id="successBox">🎉 Registration Successful!</div>
+  </form>
+
+  <script>
+    const form = document.getElementById("myForm");
+    const message = document.getElementById("message");
+    const strengthBar = document.getElementById("strength");
+    const successBox = document.getElementById("successBox");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const confirmPassword = document.getElementById("confirmPassword").value.trim();
+      const dob = document.getElementById("dob").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const college = document.getElementById("college").value.trim();
+      const file = document.getElementById("fileUpload").files[0];
+
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+      if (!username || !email || !password || !confirmPassword || !dob || !address || !college || !file) {
+        showMessage("All fields are required!", "red");
+      } else if (username.length < 3) {
+        showMessage("Username must be at least 3 characters!", "red");
+      } else if (!emailPattern.test(email)) {
+        showMessage("Invalid email format!", "red");
+      } else if (password.length < 6) {
+        showMessage("Password must be at least 6 characters!", "red");
+      } else if (password !== confirmPassword) {
+        showMessage("Passwords do not match!", "red");
+      } else {
+        showMessage("", "green");
+        successBox.style.display = "block"; 
+        form.reset();
+        strengthBar.style.background = "#ccc"; 
+        setTimeout(() => {
+          successBox.style.display = "none";
+        }, 3000);
+      }
+    });
+
+    // Real-time email validation
+    document.getElementById("email").addEventListener("input", function () {
+      const email = this.value.trim();
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+      if (email === "") {
+        message.textContent = "";
+      } else if (!emailPattern.test(email)) {
+        showMessage("Email is invalid", "orangered");
+      } else {
+        showMessage("Email looks good!", "green");
+      }
+    });
+
+    // Password strength checker
+    document.getElementById("password").addEventListener("input", function () {
+      const val = this.value;
+      let strength = 0;
+
+      if (val.match(/[a-z]+/)) strength++;
+      if (val.match(/[A-Z]+/)) strength++;
+      if (val.match(/[0-9]+/)) strength++;
+      if (val.match(/[@$!%*?&#]+/)) strength++;
+      if (val.length >= 6) strength++;
+
+      if (strength <= 2) {
+        strengthBar.style.background = "red";
+      } else if (strength === 3) {
+        strengthBar.style.background = "gold";
+      } else {
+        strengthBar.style.background = "green";
+      }
+    });
+
+    // Show/Hide password toggle
+    document.getElementById("togglePassword").addEventListener("change", function () {
+      const password = document.getElementById("password");
+      const confirmPassword = document.getElementById("confirmPassword");
+
+      if (this.checked) {
+        password.type = "text";
+        confirmPassword.type = "text";
+      } else {
+        password.type = "password";
+        confirmPassword.type = "password";
+      }
+    });
+
+    // Reset button functionality
+    document.getElementById("resetBtn").addEventListener("click", function () {
+      form.reset();
+      message.textContent = "";
+      successBox.style.display = "none";
+      strengthBar.style.background = "teal";
+    });
+
+    function showMessage(text, color) {
+      message.textContent = text;
+      message.style.color = color;
+    }
+  </script>
+
+</body>
+</html>
